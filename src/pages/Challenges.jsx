@@ -22,7 +22,7 @@ function Challenges({ user }) {
       if (snapshot.exists()) {
         const data = snapshot.val()
         const userData = Object.entries(data).find(([username, userData]) => userData.uid === user.uid)
-        
+
         if (userData) {
           setUserStats(userData[1]) // userData[1] contains the user data
         } else {
@@ -42,7 +42,7 @@ function Challenges({ user }) {
 
   const handleRetry = () => {
     setLoading(true)
-    setRetryCount(prev => prev + 1)
+    setRetryCount((prev) => prev + 1)
   }
 
   const handleFlagSubmit = async (challengeId, challengePoints) => {
@@ -104,10 +104,10 @@ function Challenges({ user }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-red-500 text-lg font-mono">LOADING CHALLENGES...</p>
+          <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-red-500 text-base sm:text-lg font-mono">LOADING CHALLENGES...</p>
         </div>
       </div>
     )
@@ -116,23 +116,21 @@ function Challenges({ user }) {
   // Show setup message if user data not found
   if (!userStats) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="bg-red-900/50 border border-red-600 rounded-lg p-8 max-w-md">
-            <h2 className="text-xl font-bold text-white font-mono mb-4">[PROFILE LOADING]</h2>
+          <div className="bg-red-900/50 border border-red-600 rounded-lg p-6 sm:p-8 max-w-sm sm:max-w-md w-full">
+            <h2 className="text-lg sm:text-xl font-bold text-white font-mono mb-4">[PROFILE LOADING]</h2>
             <p className="text-gray-300 font-mono text-sm mb-6">
               Your profile is being set up. This may take a few moments for new accounts.
             </p>
             <div className="space-y-3">
               <button
                 onClick={handleRetry}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-mono font-semibold py-2 px-4 rounded transition-colors"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-mono font-semibold py-3 px-4 rounded transition-colors touch-manipulation"
               >
                 [RETRY]
               </button>
-              <p className="text-gray-400 font-mono text-xs">
-                If this persists, try logging out and back in
-              </p>
+              <p className="text-gray-400 font-mono text-xs">If this persists, try logging out and back in</p>
             </div>
           </div>
         </div>
@@ -142,23 +140,25 @@ function Challenges({ user }) {
 
   return (
     <div className="min-h-screen bg-black">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 sm:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-3xl font-bold text-white font-mono">
+        <div className="mb-6 sm:mb-8">
+          <div className="mb-4">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white font-mono mb-4">
               [CHALLENGES<span className="text-red-600">]</span>
             </h1>
-            <div className="flex items-center space-x-6 text-sm font-mono">
-              <div className="bg-gray-900 border border-gray-700 px-4 py-2 rounded">
+
+            {/* Mobile Stats - Stacked */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 text-xs sm:text-sm font-mono">
+              <div className="bg-gray-900 border border-gray-700 px-3 sm:px-4 py-2 rounded">
                 <span className="text-gray-400">USER:</span>
-                <span className="text-green-500 ml-2 font-bold">{userStats?.username}</span>
+                <span className="text-green-500 ml-2 font-bold truncate">{userStats?.username}</span>
               </div>
-              <div className="bg-gray-900 border border-gray-700 px-4 py-2 rounded">
+              <div className="bg-gray-900 border border-gray-700 px-3 sm:px-4 py-2 rounded">
                 <span className="text-gray-400">POINTS:</span>
                 <span className="text-red-500 ml-2 font-bold">{userStats?.points || 0}</span>
               </div>
-              <div className="bg-gray-900 border border-gray-700 px-4 py-2 rounded">
+              <div className="bg-gray-900 border border-gray-700 px-3 sm:px-4 py-2 rounded">
                 <span className="text-gray-400">SOLVED:</span>
                 <span className="text-green-500 ml-2 font-bold">
                   {userStats?.challenges_solved?.length || 0}/{challenges.length}
@@ -169,8 +169,8 @@ function Challenges({ user }) {
           <div className="w-full h-0.5 bg-gradient-to-r from-red-600 to-transparent"></div>
         </div>
 
-        {/* Challenges Grid */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        {/* Challenges Grid - Single column on mobile */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {challenges.map((challenge) => {
             const challengesSolved = userStats?.challenges_solved || []
             const isSolved = challengesSolved.includes(challenge.id)
@@ -179,48 +179,50 @@ function Challenges({ user }) {
             return (
               <div
                 key={challenge.id}
-                className={`bg-gray-900 border rounded-lg p-6 transition-all duration-300 ${
+                className={`bg-gray-900 border rounded-lg p-4 sm:p-6 transition-all duration-300 ${
                   isSolved ? "border-green-600 bg-green-900/20" : "border-gray-700 hover:border-red-600/50"
                 }`}
               >
                 {/* Challenge Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-xl font-bold text-white font-mono">{challenge.title}</h3>
-                      {isSolved && <span className="text-green-500 text-sm font-mono">[SOLVED]</span>}
+                <div className="mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                    <div className="mb-2 sm:mb-0">
+                      <div className="flex items-center space-x-2 sm:space-x-3 mb-2">
+                        <h3 className="text-lg sm:text-xl font-bold text-white font-mono">{challenge.title}</h3>
+                        {isSolved && <span className="text-green-500 text-xs sm:text-sm font-mono">[SOLVED]</span>}
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <span className="bg-red-600 text-white px-3 py-1 rounded text-sm font-mono font-bold">
-                        {challenge.points} PTS
-                      </span>
-                      <span className="bg-gray-800 text-gray-300 px-3 py-1 rounded text-sm font-mono">
-                        {challenge.category}
-                      </span>
-                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                    <span className="bg-red-600 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono font-bold">
+                      {challenge.points} PTS
+                    </span>
+                    <span className="bg-gray-800 text-gray-300 px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono">
+                      {challenge.category}
+                    </span>
                   </div>
                 </div>
 
                 {/* Challenge Description */}
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-6">
                   <p className="text-gray-300 font-mono text-sm leading-relaxed break-words">{challenge.description}</p>
                 </div>
 
                 {/* Flag Submission */}
                 {!isSolved ? (
                   <div className="space-y-3">
-                    <div className="flex space-x-2">
+                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                       <input
                         type="text"
                         value={flagInputs[challenge.id] || ""}
                         onChange={(e) => handleInputChange(challenge.id, e.target.value)}
                         onKeyPress={(e) => e.key === "Enter" && handleFlagSubmit(challenge.id, challenge.points)}
-                        className="flex-1 bg-black border border-gray-700 rounded px-4 py-2 text-white font-mono text-sm focus:border-red-600 focus:outline-none transition-colors"
+                        className="flex-1 bg-black border border-gray-700 rounded px-3 sm:px-4 py-2 sm:py-3 text-white font-mono text-sm focus:border-red-600 focus:outline-none transition-colors"
                         placeholder="v1nt0r14{...}"
                       />
                       <button
                         onClick={() => handleFlagSubmit(challenge.id, challenge.points)}
-                        className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded font-mono text-sm font-semibold transition-colors"
+                        className="bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded font-mono text-sm font-semibold transition-colors touch-manipulation whitespace-nowrap"
                       >
                         SUBMIT
                       </button>
@@ -228,7 +230,7 @@ function Challenges({ user }) {
 
                     {message && (
                       <div
-                        className={`px-4 py-2 rounded font-mono text-sm ${
+                        className={`px-3 sm:px-4 py-2 sm:py-3 rounded font-mono text-sm ${
                           message.type === "success"
                             ? "bg-green-900/50 border border-green-600 text-green-400"
                             : "bg-red-900/50 border border-red-600 text-red-400"
@@ -239,7 +241,7 @@ function Challenges({ user }) {
                     )}
                   </div>
                 ) : (
-                  <div className="bg-green-900/30 border border-green-600 rounded px-4 py-3">
+                  <div className="bg-green-900/30 border border-green-600 rounded px-3 sm:px-4 py-3">
                     <p className="text-green-400 font-mono text-sm font-semibold">
                       ✓ CHALLENGE COMPLETED - {challenge.points} POINTS AWARDED
                     </p>
