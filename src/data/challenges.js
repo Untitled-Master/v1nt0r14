@@ -1,5 +1,14 @@
 export const challenges = [
     {
+        id: 0,
+        title: "Discord thingy",
+        description:
+          "u know how a flag function? well, i have a discord server, and i have a flag function there, u can find it in the #announcements channel",
+        points: 100,
+        flag: "v1nt0r14{d1sc0rd_1s_4w3s0m3}",
+        category: "COMMUNITY",
+      },
+    {
       id: 1,
       title: "Img Hunt",
       description:
