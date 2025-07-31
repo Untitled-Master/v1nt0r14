@@ -11,6 +11,9 @@ function Challenges({ user }) {
   const [messages, setMessages] = useState({})
   const [loading, setLoading] = useState(true)
   const [retryCount, setRetryCount] = useState(0)
+  const [allUsers, setAllUsers] = useState([])
+  const [selectedChallenge, setSelectedChallenge] = useState(null)
+  const [showStatsModal, setShowStatsModal] = useState(false)
 
   useEffect(() => {
     fetchUserStats()
@@ -22,6 +25,10 @@ function Challenges({ user }) {
       if (snapshot.exists()) {
         const data = snapshot.val()
         const userData = Object.entries(data).find(([username, userData]) => userData.uid === user.uid)
+        
+        // Store all users for statistics
+        const usersArray = Object.values(data)
+        setAllUsers(usersArray)
 
         if (userData) {
           setUserStats(userData[1]) // userData[1] contains the user data
@@ -86,6 +93,9 @@ function Challenges({ user }) {
 
         setMessages({ ...messages, [challengeId]: { type: "success", text: "FLAG ACCEPTED" } })
         setFlagInputs({ ...flagInputs, [challengeId]: "" })
+        
+        // Refresh user data to update statistics
+        fetchUserStats()
       } catch (error) {
         console.error("Error updating user stats:", error)
         setMessages({ ...messages, [challengeId]: { type: "error", text: "SYSTEM ERROR" } })
@@ -100,6 +110,31 @@ function Challenges({ user }) {
     if (messages[challengeId]) {
       setMessages({ ...messages, [challengeId]: null })
     }
+  }
+
+  const getChallengeStats = (challengeId) => {
+    const solvers = allUsers.filter(user => 
+      user.challenges_solved && user.challenges_solved.includes(challengeId)
+    )
+    
+    return {
+      solveCount: solvers.length,
+      solvers: solvers.sort((a, b) => {
+        // Sort by points descending, then by username
+        if (b.points !== a.points) return b.points - a.points
+        return a.username.localeCompare(b.username)
+      })
+    }
+  }
+
+  const openStatsModal = (challenge) => {
+    setSelectedChallenge(challenge)
+    setShowStatsModal(true)
+  }
+
+  const closeStatsModal = () => {
+    setShowStatsModal(false)
+    setSelectedChallenge(null)
   }
 
   if (loading) {
@@ -175,6 +210,7 @@ function Challenges({ user }) {
             const challengesSolved = userStats?.challenges_solved || []
             const isSolved = challengesSolved.includes(challenge.id)
             const message = messages[challenge.id]
+            const stats = getChallengeStats(challenge.id)
 
             return (
               <div
@@ -200,6 +236,15 @@ function Challenges({ user }) {
                     <span className="bg-gray-800 text-gray-300 px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono">
                       {challenge.category}
                     </span>
+                    {/* Stats Indicator */}
+                    <button
+                      onClick={() => openStatsModal(challenge)}
+                      className="bg-green-600 hover:bg-green-700 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono font-bold transition-colors cursor-pointer flex items-center space-x-1"
+                      title="View challenge statistics"
+                    >
+                      <span>📊</span>
+                      <span>{stats.solveCount} SOLVES</span>
+                    </button>
                   </div>
                 </div>
 
@@ -252,6 +297,125 @@ function Challenges({ user }) {
           })}
         </div>
       </div>
+
+      {/* Statistics Modal */}
+      {showStatsModal && selectedChallenge && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+          <div className="bg-gray-900 border border-gray-700 rounded-lg max-w-md w-full max-h-[80vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-red-600 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+              <h3 className="text-lg sm:text-xl font-bold text-white font-mono">
+                [CHALLENGE_STATS]
+              </h3>
+              <button
+                onClick={closeStatsModal}
+                className="text-white hover:text-gray-300 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-4 sm:p-6">
+              <div className="mb-4">
+                <h4 className="text-lg font-bold text-white font-mono mb-2">{selectedChallenge.title}</h4>
+                <div className="flex flex-wrap items-center gap-2 mb-4">
+                  <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-mono font-bold">
+                    {selectedChallenge.points} PTS
+                  </span>
+                  <span className="bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-mono">
+                    {selectedChallenge.category}
+                  </span>
+                </div>
+              </div>
+
+              {/* Statistics */}
+              <div className="mb-6">
+                <div className="bg-black border border-gray-800 rounded p-4 mb-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-500 font-mono">
+                      {getChallengeStats(selectedChallenge.id).solveCount}
+                    </div>
+                    <div className="text-gray-400 text-sm font-mono">TOTAL SOLVES</div>
+                  </div>
+                </div>
+
+                <div className="bg-black border border-gray-800 rounded p-4">
+                  <div className="text-center">
+                    <div className="text-xl font-bold text-yellow-500 font-mono">
+                      {allUsers.length > 0 ? 
+                        ((getChallengeStats(selectedChallenge.id).solveCount / allUsers.length) * 100).toFixed(1) 
+                        : 0}%
+                    </div>
+                    <div className="text-gray-400 text-sm font-mono">SOLVE RATE</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Solvers List */}
+              <div>
+                <h5 className="text-white font-mono font-bold mb-3">SOLVED BY:</h5>
+                <div className="max-h-48 overflow-y-auto">
+                  {getChallengeStats(selectedChallenge.id).solvers.length > 0 ? (
+                    <div className="space-y-2">
+                      {getChallengeStats(selectedChallenge.id).solvers.map((solver, index) => (
+                        <div
+                          key={solver.uid}
+                          className="bg-gray-800 border border-gray-700 rounded p-3 flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                              {solver.photoURL ? (
+                                <img
+                                  src={solver.photoURL || "https://i.pinimg.com/736x/38/b9/4b/38b94b759244eaef3ec4655dde0d6e3d.jpg"}
+                                  alt="Profile"
+                                  className="w-full h-full rounded-full object-cover"
+                                />
+                              ) : (
+                                <span className="text-white font-mono text-xs">
+                                  {solver.username?.charAt(0).toUpperCase()}
+                                </span>
+                              )}
+                            </div>
+                            <div>
+                              <div className="text-white font-mono text-sm font-semibold">
+                                {solver.username}
+                              </div>
+                              <div className="text-gray-400 font-mono text-xs">
+                                {solver.points} points total
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-green-500 font-mono text-sm font-bold">
+                            #{index + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500 font-mono text-sm mb-2">NO SOLVERS YET</div>
+                      <p className="text-gray-400 font-mono text-xs">Be the first to solve this challenge!</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="bg-gray-800 px-4 sm:px-6 py-3 sm:py-4">
+              <button
+                onClick={closeStatsModal}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-mono font-semibold py-2 px-4 rounded transition-colors"
+              >
+                [CLOSE]
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
