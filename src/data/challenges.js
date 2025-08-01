@@ -44,5 +44,47 @@ export const challenges = [
       flag: "v1nt0r14{3nd_0f_w4v3_un0}",
       category: "WEB",
     },
+    {
+        id: 5,
+        title: "Last Visit",
+        description: "after all the 1s and 0s, me and my friend went on a trip, here is a pic we took you may want to check https://i.postimg.cc/QM65GwMc/img.jpg",
+        points: 300,
+        flag: "v1nt0r14{london}",
+        category: "OSINT",
+        hints: [
+          "flag format: v1nt0r14{city_name}, make sure the city name is in lower case, for example: v1nt0r14{cairo}",
+        ]
+    },
+    {
+        id: 6,
+        title: "MY WEBSITE",
+        description: "after coming back from the trip, i decided to make a website, u can find it here: https://mycoolwebsitevin.vercel.app/, my friend kept runnin his mouth about how i leaked smthn important in the code",
+        points: 350,
+        flag: "v1nt0r14{my_W3bs1t3_1s_V3ry_4w3s0m3}",
+        category: "WEB",
+    },
+    {
+      id: 7,
+      title: "cogit0wn on TOP",
+      description: "my friend has a team called cogit0wn, they are really good at CTFs, i think they played in a ctf last july, he says the golden sponser of the event is really big. Can you find it?",
+      points: 400,
+      flag: "v1nt0r14{kaspersky}",
+      category: "WEB",
+        hints: [
+            "flag format: v1nt0r14{company_name}, make sure the company name is in lower case, for example: v1nt0r14{google}",
+            "Never forget the team name: cogit0wn",
+        ]
+    },
+    {
+      id: 8,
+      title: "On a misson to call",
+      description: "I cant reach my firend, help me find his phone number, i know he has it somewhere on the internet",
+      points: 600,
+      flag: "v1nt0r14{+213563292372}",
+      category: "WEB",
+      hints: [
+        "flag format: v1nt0r14{+213*******}",
+      ]
+    },
   ]
   
