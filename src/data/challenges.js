@@ -1,104 +1,96 @@
 export const challenges = [
-    {
-        id: 0,
-        title: "Discord thingy",
-        description:
-          "u know how a flag function? well, i have a discord server, and i have a flag function there, u can find it in the #announcements channel",
-        points: 100,
-        flag: "v1nt0r14{d1sc0rd_1s_4w3s0m3}",
-        category: "COMMUNITY",
-      },
-    {
-      id: 1,
-      title: "Img Hunt",
-      description:
-        "I wish i can know more about this img...oh wait, i can... https://i.postimg.cc/wBMzRp43/cf993232920bc3dfa2e321ff79d26d58.jpg",
-      points: 100,
-      flag: "v1nt0r14{m3T4_m4sT3rrrr}",
-      category: "OSINT",
-      hints: [
-        "Look at the image metadata",
-      ]
-    },
-    {
-      id: 2,
-      title: "Instagram Discovery",
-      description: "I think no one can really find my acc, i have, well, a unique username :)",
-      points: 150,
-      flag: "v1nt0r14{C00l_Us3rn4am3_r1ght???}",
-      category: "OSINT",
-    },
-    {
-        id: 3,
-        title: "Bio Secret",
-        description: "Bios keep secrets uk",
-        points: 200,
-        flag: "v1nt0r14{4lw4ys_Ch3cK_f0ll0w3rs_HHHH}",
-        category: "OSINT",
-    },
-    {
-      id: 4,
-      title: "my friend is good with 1s and 0s",
-      description: "pretty sure my friend has some websites, i remeber posting smthn about one of them, maybe a logo",
-      points: 300,
-      flag: "v1nt0r14{3nd_0f_w4v3_un0}",
-      category: "WEB",
-      hints: [
-        "check twitter for the logo of the website",
-      ]
-    },
-    {
-        id: 5,
-        title: "Last Visit",
-        description: "after all the 1s and 0s, me and my friend went on a trip, here is a pic we took you may want to check https://i.postimg.cc/QM65GwMc/img.jpg",
-        points: 300,
-        flag: "v1nt0r14{london}",
-        category: "OSINT",
-        hints: [
-          "flag format: v1nt0r14{city_name}, make sure the city name is in lower case, for example: v1nt0r14{cairo}",
-        ]
-    },
-    {
-        id: 6,
-        title: "MY WEBSITE",
-        description: "after coming back from the trip, i decided to make a website, u can find it here: https://mycoolwebsitevin.vercel.app/, my friend kept runnin his mouth about how i leaked smthn important in the code",
-        points: 350,
-        flag: "v1nt0r14{my_W3bs1t3_1s_V3ry_4w3s0m3}",
-        category: "WEB",
-    },
-    {
-      id: 7,
-      title: "cogit0wn on TOP",
-      description: "my friend has a team called cogit0wn, they are really good at CTFs, i think they played in a ctf last july, he says the golden sponser of the event is really big. Can you find it?",
-      points: 400,
-      flag: "v1nt0r14{kaspersky}",
-      category: "OSINT",
-        hints: [
-            "flag format: v1nt0r14{company_name}, make sure the company name is in lower case, for example: v1nt0r14{google}",
-            "Never forget the team name: cogit0wn",
-        ]
-    },
-    {
-      id: 8,
-      title: "On a misson to call",
-      description: "I cant reach my firend, help me find his phone number, i know he has it somewhere on the internet",
-      points: 600,
-      flag: "v1nt0r14{+213563292372}",
-      category: "OSINT",
-      hints: [
-        "flag format: v1nt0r14{+213*******}",
-      ]
-    },
-    {
-        id: 10,
-        title: "My password is LEAKED?",
-        description: "i just found out from an artical that my password can be kracked in 4 mins 😭😭😭",
-        points: 600,
-        flag: "v1nt0r14{7758521}",
-        category: "OSINT",
-        hints: [
-            "flag format: v1nt0r14{my_password}",
-          ]
-    },
-  ]
-  
+  {
+    id: 0,
+    title: "Discord thingy",
+    description:
+      "u know how a flag function? well, i have a discord server, and i have a flag function there, u can find it in the #announcements channel",
+    points: 100,
+    flag: "i1ag0e14{q1fp0eq_1f_4j3f0z3}", 
+    category: "COMMUNITY",
+  },
+  {
+    id: 1,
+    title: "Img Hunt",
+    description:
+      "I wish i can know more about this img...oh wait, i can... https://i.postimg.cc/wBMzRp43/cf993232920bc3dfa2e321ff79d26d58.jpg",
+    points: 100,
+    flag: "i1ag0e14{z3G4_z4fG3eeee}", 
+    category: "OSINT",
+    hints: ["Look at the image metadata"],
+  },
+  {
+    id: 2,
+    title: "Instagram Discovery",
+    description: "I think no one can really find my acc, i have, well, a unique username :)",
+    points: 150,
+    flag: "i1ag0e14{P00y_Hf3ea4nz3_e1tug???}",
+    category: "OSINT",
+  },
+  {
+    id: 3,
+    title: "Bio Secret",
+    description: "Bios keep secrets uk",
+    points: 200,
+    flag: "i1ag0e14{4yj4lf_Pu3pX_s0yy0j3ef_UUUU}",
+    category: "OSINT",
+  },
+  {
+    id: 4,
+    title: "my friend is good with 1s and 0s",
+    description: "pretty sure my friend has some websites, i remeber posting smthn about one of them, maybe a logo",
+    points: 300,
+    flag: "i1ag0e14{3aq_0s_j4i3_ha0}",
+    category: "WEB",
+    hints: ["check twitter for the logo of the website"],
+  },
+  {
+    id: 5,
+    title: "Last Visit",
+    description:
+      "after all the 1s and 0s, me and my friend went on a trip, here is a pic we took you may want to check https://i.postimg.cc/QM65GwMc/img.jpg",
+    points: 300,
+    flag: "i1ag0e14{ybaqa}",
+    category: "OSINT",
+    hints: ["flag format: v1nt0r14{city_name}, make sure the city name is in lower case, for example: v1nt0r14{cairo}"],
+  },
+  {
+    id: 6,
+    title: "MY WEBSITE",
+    description:
+      "after coming back from the trip, i decided to make a website, u can find it here: https://mycoolwebsitevin.vercel.app/, my friend kept runnin his mouth about how i leaked smthn important in the code",
+    points: 350,
+    flag: "i1ag0e14{zl_J3of1g3_1f_I3el_4j3f0z3}", 
+    category: "WEB",
+  },
+  {
+    id: 7,
+    title: "cogit0wn on TOP",
+    description:
+      "my friend has a team called cogit0wn, they are really good at CTFs, i think they played in a ctf last july, he says the golden sponser of the event is really big. Can you find it?",
+    points: 400,
+    flag: "i1ag0e14{xnfcrefxl}", 
+    category: "OSINT",
+    hints: [
+      "flag format: v1nt0r14{company_name}, make sure the company name is in lower case, for example: v1nt0r14{google}",
+      "Never forget the team name: cogit0wn",
+    ],
+  },
+  {
+    id: 8,
+    title: "On a misson to call",
+    description: "I cant reach my firend, help me find his phone number, i know he has it somewhere on the internet",
+    points: 600,
+    flag: "i1ag0e14{+213563292372}", 
+    category: "OSINT",
+    hints: ["flag format: v1nt0r14{+213*******}"],
+  },
+  {
+    id: 10,
+    title: "My password is LEAKED?",
+    description: "i just found out from an artical that my password can be kracked in 4 mins 😭😭😭",
+    points: 600,
+    flag: "i1ag0e14{7758521}", 
+    category: "OSINT",
+    hints: ["flag format: v1nt0r14{my_password}"],
+  },
+]

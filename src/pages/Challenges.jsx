@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { ref, get, update } from "firebase/database"
 import { database } from "../firebase/config"
 import { challenges } from "../data/challenges"
+import { decryptFlag } from "../utils/encryption"
 
 function Challenges({ user }) {
   const [userStats, setUserStats] = useState(null)
@@ -77,7 +78,9 @@ function Challenges({ user }) {
       return
     }
 
-    if (submittedFlag === challenge.flag) {
+    // Decrypt the stored flag and compare with submitted flag
+    const decryptedFlag = decryptFlag(challenge.flag)
+    if (submittedFlag === decryptedFlag) {
       try {
         const newChallengesSolved = [...challengesSolved, challengeId]
         const newPoints = (userStats.points || 0) + challengePoints
@@ -249,7 +252,7 @@ function Challenges({ user }) {
                     {/* Stats Indicator */}
                     <button
                       onClick={() => openStatsModal(challenge)}
-                      className="bg-green-600 hover:bg-green-700 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono font-bold transition-colors cursor-pointer flex items-center space-x-1"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono font-bold transition-colors cursor-pointer flex items-center space-x-1"
                       title="View challenge statistics"
                     >
                       <span>📊</span>
