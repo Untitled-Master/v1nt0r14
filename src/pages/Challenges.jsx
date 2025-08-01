@@ -14,6 +14,8 @@ function Challenges({ user }) {
   const [allUsers, setAllUsers] = useState([])
   const [selectedChallenge, setSelectedChallenge] = useState(null)
   const [showStatsModal, setShowStatsModal] = useState(false)
+  const [showHintsModal, setShowHintsModal] = useState(false)
+  const [selectedHintsChallenge, setSelectedHintsChallenge] = useState(null)
 
   useEffect(() => {
     fetchUserStats()
@@ -25,7 +27,7 @@ function Challenges({ user }) {
       if (snapshot.exists()) {
         const data = snapshot.val()
         const userData = Object.entries(data).find(([username, userData]) => userData.uid === user.uid)
-        
+
         // Store all users for statistics
         const usersArray = Object.values(data)
         setAllUsers(usersArray)
@@ -93,7 +95,7 @@ function Challenges({ user }) {
 
         setMessages({ ...messages, [challengeId]: { type: "success", text: "FLAG ACCEPTED" } })
         setFlagInputs({ ...flagInputs, [challengeId]: "" })
-        
+
         // Refresh user data to update statistics
         fetchUserStats()
       } catch (error) {
@@ -113,17 +115,15 @@ function Challenges({ user }) {
   }
 
   const getChallengeStats = (challengeId) => {
-    const solvers = allUsers.filter(user => 
-      user.challenges_solved && user.challenges_solved.includes(challengeId)
-    )
-    
+    const solvers = allUsers.filter((user) => user.challenges_solved && user.challenges_solved.includes(challengeId))
+
     return {
       solveCount: solvers.length,
       solvers: solvers.sort((a, b) => {
         // Sort by points descending, then by username
         if (b.points !== a.points) return b.points - a.points
         return a.username.localeCompare(b.username)
-      })
+      }),
     }
   }
 
@@ -135,6 +135,16 @@ function Challenges({ user }) {
   const closeStatsModal = () => {
     setShowStatsModal(false)
     setSelectedChallenge(null)
+  }
+
+  const openHintsModal = (challenge) => {
+    setSelectedHintsChallenge(challenge)
+    setShowHintsModal(true)
+  }
+
+  const closeHintsModal = () => {
+    setShowHintsModal(false)
+    setSelectedHintsChallenge(null)
   }
 
   if (loading) {
@@ -245,6 +255,15 @@ function Challenges({ user }) {
                       <span>📊</span>
                       <span>{stats.solveCount} SOLVES</span>
                     </button>
+                    {/* Hints Indicator */}
+                    <button
+                      onClick={() => openHintsModal(challenge)}
+                      className="bg-yellow-600 hover:bg-yellow-700 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono font-bold transition-colors cursor-pointer flex items-center space-x-1"
+                      title="View challenge hints"
+                    >
+                      <span>💡</span>
+                      <span>{challenge.hints?.length || 0} HINTS</span>
+                    </button>
                   </div>
                 </div>
 
@@ -304,13 +323,8 @@ function Challenges({ user }) {
           <div className="bg-gray-900 border border-gray-700 rounded-lg max-w-md w-full max-h-[80vh] overflow-hidden">
             {/* Modal Header */}
             <div className="bg-red-600 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-              <h3 className="text-lg sm:text-xl font-bold text-white font-mono">
-                [CHALLENGE_STATS]
-              </h3>
-              <button
-                onClick={closeStatsModal}
-                className="text-white hover:text-gray-300 transition-colors"
-              >
+              <h3 className="text-lg sm:text-xl font-bold text-white font-mono">[CHALLENGE_STATS]</h3>
+              <button onClick={closeStatsModal} className="text-white hover:text-gray-300 transition-colors">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -345,9 +359,10 @@ function Challenges({ user }) {
                 <div className="bg-black border border-gray-800 rounded p-4">
                   <div className="text-center">
                     <div className="text-xl font-bold text-yellow-500 font-mono">
-                      {allUsers.length > 0 ? 
-                        ((getChallengeStats(selectedChallenge.id).solveCount / allUsers.length) * 100).toFixed(1) 
-                        : 0}%
+                      {allUsers.length > 0
+                        ? ((getChallengeStats(selectedChallenge.id).solveCount / allUsers.length) * 100).toFixed(1)
+                        : 0}
+                      %
                     </div>
                     <div className="text-gray-400 text-sm font-mono">SOLVE RATE</div>
                   </div>
@@ -369,7 +384,7 @@ function Challenges({ user }) {
                             <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                               {solver.photoURL ? (
                                 <img
-                                  src={solver.photoURL || "https://i.pinimg.com/736x/38/b9/4b/38b94b759244eaef3ec4655dde0d6e3d.jpg"}
+                                  src={solver.photoURL || "/placeholder.svg"}
                                   alt="Profile"
                                   className="w-full h-full rounded-full object-cover"
                                 />
@@ -380,17 +395,11 @@ function Challenges({ user }) {
                               )}
                             </div>
                             <div>
-                              <div className="text-white font-mono text-sm font-semibold">
-                                {solver.username}
-                              </div>
-                              <div className="text-gray-400 font-mono text-xs">
-                                {solver.points} points total
-                              </div>
+                              <div className="text-white font-mono text-sm font-semibold">{solver.username}</div>
+                              <div className="text-gray-400 font-mono text-xs">{solver.points} points total</div>
                             </div>
                           </div>
-                          <div className="text-green-500 font-mono text-sm font-bold">
-                            #{index + 1}
-                          </div>
+                          <div className="text-green-500 font-mono text-sm font-bold">#{index + 1}</div>
                         </div>
                       ))}
                     </div>
@@ -409,6 +418,92 @@ function Challenges({ user }) {
               <button
                 onClick={closeStatsModal}
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-mono font-semibold py-2 px-4 rounded transition-colors"
+              >
+                [CLOSE]
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hints Modal */}
+      {showHintsModal && selectedHintsChallenge && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+          <div className="bg-gray-900 border border-gray-700 rounded-lg max-w-lg w-full max-h-[80vh] overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-yellow-600 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+              <h3 className="text-lg sm:text-xl font-bold text-white font-mono">[CHALLENGE_HINTS]</h3>
+              <button onClick={closeHintsModal} className="text-white hover:text-gray-300 transition-colors">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-4 sm:p-6">
+              <div className="mb-6">
+                <h4 className="text-lg font-bold text-white font-mono mb-2">{selectedHintsChallenge.title}</h4>
+                <div className="flex flex-wrap items-center gap-2 mb-4">
+                  <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-mono font-bold">
+                    {selectedHintsChallenge.points} PTS
+                  </span>
+                  <span className="bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-mono">
+                    {selectedHintsChallenge.category}
+                  </span>
+                  <span className="bg-yellow-600 text-white px-2 py-1 rounded text-xs font-mono font-bold">
+                    💡 {selectedHintsChallenge.hints?.length || 0} HINTS
+                  </span>
+                </div>
+              </div>
+
+              {/* Hints List */}
+              <div>
+                <h5 className="text-white font-mono font-bold mb-4">AVAILABLE HINTS:</h5>
+                <div className="max-h-64 overflow-y-auto">
+                  {selectedHintsChallenge.hints && selectedHintsChallenge.hints.length > 0 ? (
+                    <div className="space-y-4">
+                      {selectedHintsChallenge.hints.map((hint, index) => (
+                        <div key={index} className="bg-yellow-900/20 border border-yellow-600/50 rounded-lg p-4">
+                          <div className="flex items-start space-x-3">
+                            <div className="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center flex-shrink-0">
+                              <span className="text-white font-mono text-sm font-bold">{index + 1}</span>
+                            </div>
+                            <div className="flex-1">
+                              <div className="text-yellow-400 font-mono text-xs font-bold mb-2">HINT #{index + 1}</div>
+                              <p className="text-gray-300 font-mono text-sm leading-relaxed">{hint}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-gray-500 font-mono text-lg mb-2">NO HINTS AVAILABLE</div>
+                      <p className="text-gray-400 font-mono text-sm">This challenge doesn't have any hints yet.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Hint Info */}
+              <div className="mt-6 bg-blue-900/20 border border-blue-600/50 rounded-lg p-4">
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="text-blue-400 text-lg">ℹ️</span>
+                  <span className="text-blue-400 font-mono text-sm font-bold">INFO</span>
+                </div>
+                <p className="text-gray-300 font-mono text-xs leading-relaxed">
+                  Hints are provided to help you solve the challenge. No points will be deducted for viewing hints. Use
+                  them wisely to guide your approach!
+                </p>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="bg-gray-800 px-4 sm:px-6 py-3 sm:py-4">
+              <button
+                onClick={closeHintsModal}
+                className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-mono font-semibold py-2 px-4 rounded transition-colors"
               >
                 [CLOSE]
               </button>
