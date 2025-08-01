@@ -16,6 +16,9 @@ export const challenges = [
       points: 100,
       flag: "v1nt0r14{m3T4_m4sT3rrrr}",
       category: "OSINT",
+      hints: [
+        "Look at the image metadata",
+      ]
     },
     {
       id: 2,
@@ -26,12 +29,12 @@ export const challenges = [
       category: "OSINT",
     },
     {
-      id: 3,
-      title: "Bio Secret",
-      description: "Bios keep secrets uk",
-      points: 200,
-      flag: "v1nt0r14{4lw4ys_Ch3cK_f0ll0w3rs_HHHH}",
-      category: "OSINT",
+        id: 3,
+        title: "Bio Secret",
+        description: "Bios keep secrets uk",
+        points: 200,
+        flag: "v1nt0r14{4lw4ys_Ch3cK_f0ll0w3rs_HHHH}",
+        category: "OSINT",
     },
     {
       id: 4,
