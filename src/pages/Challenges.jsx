@@ -252,7 +252,7 @@ function Challenges({ user }) {
                     {/* Stats Indicator */}
                     <button
                       onClick={() => openStatsModal(challenge)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono font-bold transition-colors cursor-pointer flex items-center space-x-1"
+                      className="bg-green-600 hover:bg-green-700 text-white px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-mono font-bold transition-colors cursor-pointer flex items-center space-x-1"
                       title="View challenge statistics"
                     >
                       <span>📊</span>
