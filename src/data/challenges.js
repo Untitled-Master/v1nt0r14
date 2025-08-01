@@ -93,4 +93,36 @@ export const challenges = [
     category: "OSINT",
     hints: ["flag format: v1nt0r14{my_password}"],
   },
+  {
+    id: 11,
+    title: "Encryption rookie",
+    description: "you hacked my platform? very cool, now i have encryption hhhh, check it here: https://pastebin.com/8GT06NMc",
+    points: 400,
+    flag: "i1ag0e14{o4f3_f3kg1_s0HE}", 
+    category: "Crypto",
+  },
+  {
+    id: 12,
+    title: "Encryption rookie 2",
+    description: "I learned some new stuff HHHH, check it here: https://pastebin.com/8LS0hsLx",
+    points: 600,
+    flag: "i1ag0e14{wJG_0a_GbC}", 
+    category: "Crypto",
+  },
+  {
+    id: 13,
+    title: "Encryption rookie 3",
+    description: "I wish i was her bf, but the only bf i know is this https://pastebin.com/TxKWLwQ7",
+    points: 500,
+    flag: "i1ag0e14{oE41a_sHpX_UUUUUUUUUU}", 
+    category: "Crypto",
+  },
+  {
+    id: 14,
+    title: "Terminel is C00l",
+    description: "act like hacker and show me how to use a terminel, here: https://very-cute-shell.vercel.app/",
+    points: 500,
+    flag: "i1ag0e14{i3El_Phg3_FU3yY}", 
+    category: "Shell",
+  }
 ]
