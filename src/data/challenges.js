@@ -49,7 +49,7 @@ export const challenges = [
     description:
       "after all the 1s and 0s, me and my friend went on a trip, here is a pic we took you may want to check https://i.postimg.cc/QM65GwMc/img.jpg",
     points: 300,
-    flag: "i1ag0e14{ybaqba}",
+    flag: "i1ag0e14{ybaqa}",
     category: "OSINT",
     hints: ["flag format: v1nt0r14{city_name}, make sure the city name is in lower case, for example: v1nt0r14{cairo}"],
   },
@@ -124,5 +124,17 @@ export const challenges = [
     points: 500,
     flag: "i1ag0e14{i3El_Phg3_FU3yY}", 
     category: "Shell",
-  }
+  },
+  {
+    id: 15,
+    title: "Find me",
+    description: "find my ass if u can, goodluck HHHHHHHH, here is the img: https://pastebin.com/Xs8iAiRZ, oh and yes, it has a password that i shared somewhere chatting with someone, going like 'Imagine if i just leak a flag hhh'",
+    points: 1000000,
+    flag: "i1ag0e14{35.46, 2.90}", 
+    category: "OSINT",
+    hints: [
+      "flag format: v1nt0r14{latitude_longitude}, The flag is the latitude and longitude of the area you will find. Take the two digits after the decimal point.",
+      "exmp: v1nt0r14{12.34_56.78}",
+    ],
+  },
 ]
