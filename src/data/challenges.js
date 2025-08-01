@@ -69,7 +69,7 @@ export const challenges = [
       description: "my friend has a team called cogit0wn, they are really good at CTFs, i think they played in a ctf last july, he says the golden sponser of the event is really big. Can you find it?",
       points: 400,
       flag: "v1nt0r14{kaspersky}",
-      category: "WEB",
+      category: "OSINT",
         hints: [
             "flag format: v1nt0r14{company_name}, make sure the company name is in lower case, for example: v1nt0r14{google}",
             "Never forget the team name: cogit0wn",
@@ -81,10 +81,21 @@ export const challenges = [
       description: "I cant reach my firend, help me find his phone number, i know he has it somewhere on the internet",
       points: 600,
       flag: "v1nt0r14{+213563292372}",
-      category: "WEB",
+      category: "OSINT",
       hints: [
         "flag format: v1nt0r14{+213*******}",
       ]
+    },
+    {
+        id: 10,
+        title: "My password is LEAKED?",
+        description: "i just found out from an artical that my password can be kracked in 4 mins 😭😭😭",
+        points: 600,
+        flag: "v1nt0r14{7758521}",
+        category: "OSINT",
+        hints: [
+            "flag format: v1nt0r14{my_password}",
+          ]
     },
   ]
   
