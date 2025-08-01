@@ -49,7 +49,7 @@ export const challenges = [
     description:
       "after all the 1s and 0s, me and my friend went on a trip, here is a pic we took you may want to check https://i.postimg.cc/QM65GwMc/img.jpg",
     points: 300,
-    flag: "i1ag0e14{ybaqa}",
+    flag: "i1ag0e14{ybaqba}",
     category: "OSINT",
     hints: ["flag format: v1nt0r14{city_name}, make sure the city name is in lower case, for example: v1nt0r14{cairo}"],
   },
