@@ -43,6 +43,9 @@ export const challenges = [
       points: 300,
       flag: "v1nt0r14{3nd_0f_w4v3_un0}",
       category: "WEB",
+      hints: [
+        "check twitter for the logo of the website",
+      ]
     },
     {
         id: 5,
