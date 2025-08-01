@@ -130,7 +130,7 @@ export const challenges = [
     title: "Find me",
     description: "find my ass if u can, goodluck HHHHHHHH, here is the img: https://pastebin.com/Xs8iAiRZ, oh and yes, it has a password that i shared somewhere chatting with someone, going like 'Imagine if i just leak a flag hhh'",
     points: 1000000,
-    flag: "i1ag0e14{35.46, 2.90}", 
+    flag: "i1ag0e14{35.46_2.90}", 
     category: "OSINT",
     hints: [
       "flag format: v1nt0r14{latitude_longitude}, The flag is the latitude and longitude of the area you will find. Take the two digits after the decimal point.",
